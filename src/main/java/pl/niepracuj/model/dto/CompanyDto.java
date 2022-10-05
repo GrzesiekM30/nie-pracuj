@@ -1,20 +1,14 @@
-package pl.niepracuj.model.entity;
+package pl.niepracuj.model.dto;
 
 import lombok.*;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "companies")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Company {
+public class CompanyDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,5 +18,4 @@ public class Company {
     private String address;
 
     private Integer size;
-
 }
