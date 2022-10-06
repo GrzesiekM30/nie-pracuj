@@ -20,8 +20,8 @@ public class AdvertisementController {
         return advertisementService.getAllAdvertisements();
     }
 
-//    @PostMapping("/create")
-//    public CompanyDto createAdvertisement(@RequestBody AdvertisementCreateDto advertisementCreateDto) {
-//        return advertisementService.createAdvertisement(advertisementCreateDto);
-//    }
+    @PostMapping("/create")
+    public AdvertisementDto createAdvertisement(@RequestBody AdvertisementCreateDto advertisementCreateDto) {
+        return advertisementService.createAdvertisement(advertisementCreateDto);
+    }
 }
