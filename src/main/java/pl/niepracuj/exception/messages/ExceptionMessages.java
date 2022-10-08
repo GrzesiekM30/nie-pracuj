@@ -1,13 +1,13 @@
 package pl.niepracuj.exception.messages;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum ExceptionMessages {
 
-    ENTITY_FOR_PROVIDED_ID_NOT_FOUND("Encja dla podanego id nie istnieje");
+    ENTITY_FOR_PROVIDED_ID_NOT_FOUND("Encja %s dla podanego id: %s nie istnieje");
 
-    private String message;
+    private final String message;
 }
