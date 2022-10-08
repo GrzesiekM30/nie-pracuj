@@ -16,6 +16,7 @@ import pl.niepracuj.repository.*;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     @Override
     public AdvertisementDto createAdvertisement(AdvertisementCreateDto createDto) {
         Advertisement advertisement = advertisementMapper.toNewEntity(createDto);
-        advertisement.setPublishDate(Instant.now());
+        advertisement.setPublishDate(LocalDateTime.now());
         advertisement.setCompany(companyRepository.findById(createDto.getCompanyId())
                 .orElseThrow(() -> new EntityNotFoundException("Company",createDto.getCompanyId())));
         advertisement.setTechnology(technologyRepository.findById(createDto.getTechnologyId())

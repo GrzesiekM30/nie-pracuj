@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -21,9 +23,9 @@ public class Advertisement {
 
     private String name;
 
-    private Instant publishDate;
+    private LocalDateTime publishDate;
 
-    private Instant expireDate;
+    private LocalDateTime expireDate;
 
     private Long salaryFrom;
 

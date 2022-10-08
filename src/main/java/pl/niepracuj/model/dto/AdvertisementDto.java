@@ -2,7 +2,9 @@ package pl.niepracuj.model.dto;
 
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -16,9 +18,9 @@ public class AdvertisementDto {
 
     private String name;
 
-    private Instant publishDate;
+    private LocalDateTime publishDate;
 
-    private Instant expireDate;
+    private LocalDateTime expireDate;
 
     private Long salaryFrom;
 
