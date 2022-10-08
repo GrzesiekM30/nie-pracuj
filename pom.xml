@@ -18,6 +18,7 @@
         <java.version>17</java.version>
         <h2.version>2.1.214</h2.version>
         <mysql.version>8.0.30</mysql.version>
+        <swager.version>1.6.4</swager.version>
     </properties>
     <dependencies>
         <dependency>
@@ -45,6 +46,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${swager.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>

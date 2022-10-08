@@ -1,3 +1,5 @@
+package pl.niepracuj.controller;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.niepracuj.model.dto.SeniorityDto;
