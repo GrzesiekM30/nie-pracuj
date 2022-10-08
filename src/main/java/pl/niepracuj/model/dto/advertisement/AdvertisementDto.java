@@ -1,6 +1,7 @@
-package pl.niepracuj.model.dto;
+package pl.niepracuj.model.dto.advertisement;
 
 import lombok.*;
+import pl.niepracuj.model.dto.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
