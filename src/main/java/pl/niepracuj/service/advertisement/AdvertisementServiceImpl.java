@@ -65,7 +65,8 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         List<Skill> skills = createDto.getSkills().stream()
                 .map(skillCreateDto -> {
                     Skill skill = skillMapper.toNewEntity(skillCreateDto);
-                    skill.setLevel(levelRepository.findById(skillCreateDto.getLevelId()).orElseThrow(RuntimeException::new));
+                    skill.setLevel(levelRepository.findById(skillCreateDto.getLevelId())
+                            .orElseThrow(() -> new EntityNotFoundException("Level", skillCreateDto.getLevelId())));
                     return skill;
                 }).collect(Collectors.toList());
 
