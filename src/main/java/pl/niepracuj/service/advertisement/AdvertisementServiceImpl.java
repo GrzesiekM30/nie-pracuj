@@ -2,18 +2,18 @@ package pl.niepracuj.service.advertisement;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.niepracuj.exception.exceptions.ResourceNotFoundException;
+import pl.niepracuj.exception.messages.ExceptionMessages;
 import pl.niepracuj.model.dto.AdvertisementCreateDto;
 import pl.niepracuj.model.dto.AdvertisementDto;
 import pl.niepracuj.model.entity.Advertisement;
 import pl.niepracuj.model.entity.Skill;
 import pl.niepracuj.model.mapper.AdvertisementMapper;
-import pl.niepracuj.repository.AdvertisementRepository;
 import pl.niepracuj.model.mapper.SkillMapper;
 import pl.niepracuj.repository.*;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,10 +50,14 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     public AdvertisementDto createAdvertisement(AdvertisementCreateDto createDto) {
         Advertisement advertisement = advertisementMapper.toNewEntity(createDto);
         advertisement.setPublishDate(Instant.now());
-        advertisement.setCompany(companyRepository.findById(createDto.getCompanyId()).orElseThrow(RuntimeException::new));
-        advertisement.setTechnology(technologyRepository.findById(createDto.getTechnologyId()).orElseThrow(RuntimeException::new));
-        advertisement.setSeniority(seniorityRepository.findById(createDto.getSeniorityId()).orElseThrow(RuntimeException::new));
-        advertisement.setCity(cityRepository.findById(createDto.getCityId()).orElseThrow(RuntimeException::new));
+        advertisement.setCompany(companyRepository.findById(createDto.getCompanyId())
+                .orElseThrow(() -> new ResourceNotFoundException(ExceptionMessages.ENTITY_FOR_PROVIDED_ID_NOT_FOUND.getMessage())));
+        advertisement.setTechnology(technologyRepository.findById(createDto.getTechnologyId())
+                .orElseThrow(() -> new ResourceNotFoundException(ExceptionMessages.ENTITY_FOR_PROVIDED_ID_NOT_FOUND.getMessage())));
+        advertisement.setSeniority(seniorityRepository.findById(createDto.getSeniorityId())
+                .orElseThrow(() -> new ResourceNotFoundException(ExceptionMessages.ENTITY_FOR_PROVIDED_ID_NOT_FOUND.getMessage())));
+        advertisement.setCity(cityRepository.findById(createDto.getCityId())
+                .orElseThrow(() -> new ResourceNotFoundException(ExceptionMessages.ENTITY_FOR_PROVIDED_ID_NOT_FOUND.getMessage())));
 
         List<Skill> skills = createDto.getSkills().stream()
                 .map(skillCreateDto -> {
