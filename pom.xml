@@ -18,7 +18,8 @@
         <java.version>17</java.version>
         <h2.version>2.1.214</h2.version>
         <mysql.version>8.0.30</mysql.version>
-        <swager.version>1.6.4</swager.version>
+        <swager.version>1.6.11</swager.version>
+        <params.version>5.9.0</params.version>
     </properties>
     <dependencies>
         <dependency>
@@ -71,6 +72,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${params.version}</version><!-- aktualna wersja może ulec zmianie -->
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 
