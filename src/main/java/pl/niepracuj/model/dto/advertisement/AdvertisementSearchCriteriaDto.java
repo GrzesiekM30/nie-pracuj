@@ -3,6 +3,7 @@ package pl.niepracuj.model.dto.advertisement;
 import lombok.*;
 import pl.niepracuj.model.dto.SkillCreateDto;
 import pl.niepracuj.model.enums.SeniorityEnum;
+import pl.niepracuj.model.enums.TechnologyEnum;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class AdvertisementSearchCriteriaDto {
 
     private String companyName;
 
-    private String technologyName;
+    private TechnologyEnum technologyName;
 
     private SeniorityEnum seniorityName;
 
