@@ -86,9 +86,9 @@ public class AdvertisementControllerIT {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
             return Stream.of(
-                    Arguments.of(TechnologyEnum.JAVA, null, null, 2),
-                    Arguments.of(null, null, SeniorityEnum.MID, 1),
-                    Arguments.of(null, 'Nowogrodziec', null, 1));
+                    Arguments.of(TechnologyEnum.JAVA, null, null, 2));
+                    //Arguments.of(null, null, SeniorityEnum.MID, 1),
+                   // Arguments.of(null, 'Nowogrodziec', null, 1));
         }
     }
 }
