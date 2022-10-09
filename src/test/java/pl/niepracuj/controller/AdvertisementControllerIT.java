@@ -4,13 +4,12 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.niepracuj.model.dto.advertisement.AdvertisementSearchCriteriaDto;
@@ -25,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static pl.niepracuj.util.TestUtils.toJson;
 
+//TODO Do naprawy ładowanie danych wejściowych
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AdvertisementControllerIT {
@@ -42,53 +42,54 @@ public class AdvertisementControllerIT {
 
 //    @Test
 //    @Sql("/sql/controller/advertisement.sql")
-//    public void whenGetAdvertisementsByCriteria_ThenOkResponse () throws Exception {
-//
+//    public void whenGetAdvertisementsByCriteria_thenOkResponse() throws Exception {
+//        // given
 //        var criteria = AdvertisementSearchCriteriaDto.builder()
 //                .technologyName(TechnologyEnum.JAVA).build();
 //        var criteriaJson = toJson(criteria);
+//
 //        // when && then
-//        mockMvc.perform(post("/adv/search")
+//        mockMvc.perform(post("/adv/search?page=0&size=10&sort=id,DESC")
 //                        .content(criteriaJson)
 //                        .contentType(MediaType.APPLICATION_JSON))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.size()", Matchers.equalTo(2)));
 //    }
-    //Test parametryzowany
-    //1 technology: JAVA -> 2
-    //2 city: Nowogrodziec -> 1
-    //3 seniority: MID -> 1
 
     @ParameterizedTest
     @ArgumentsSource(CriteriaProvider.class)
     @Sql("/sql/controller/advertisement.sql")
-    public void whenGetAdvertisementsByCriteriaParametrized_ThenOkResponse (TechnologyEnum technology,
-                                                                            String city,
-                                                                            SeniorityEnum seniority,
-                                                                            int result) throws Exception {
-
+    @WithMockUser(username = "admin", password = "admin", roles = {"ADMIN"})
+    public void whenGetAdvertisementsByCriteriaParemetrized_thenOkResponse(TechnologyEnum technology,
+                                                                           String city,
+                                                                           SeniorityEnum seniority,
+                                                                           int result) throws Exception {
+        // given
         var criteria = AdvertisementSearchCriteriaDto.builder()
                 .technologyName(technology)
                 .cityName(city)
                 .seniorityName(seniority)
                 .build();
         var criteriaJson = toJson(criteria);
+
         // when && then
-        mockMvc.perform(post("/adv/search")
+        mockMvc.perform(post("/adv/search?page=0&size=10&sort=id,DESC")
                         .content(criteriaJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.equalTo(result)));
     }
 
-    static class CriteriaProvider implements ArgumentsProvider{
-
+    static class CriteriaProvider implements ArgumentsProvider {
         @Override
-        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
-                    Arguments.of(TechnologyEnum.JAVA, null, null, 2));
-                    //Arguments.of(null, null, SeniorityEnum.MID, 1),
-                   // Arguments.of(null, 'Nowogrodziec', null, 1));
+                    Arguments.of(TechnologyEnum.JAVA, null, null, 2)
+//                    ,
+//                    Arguments.of(null, "Nowogrodziec", null, 1),
+//                    Arguments.of(null, null, SeniorityEnum.MID, 1)
+            );
         }
     }
+
 }
