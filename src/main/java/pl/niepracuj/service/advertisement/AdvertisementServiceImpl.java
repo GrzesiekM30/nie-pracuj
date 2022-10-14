@@ -38,6 +38,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     private final SkillRepository skillRepository;
 
     private final LevelRepository levelRepository;
+
     private final AdvertisementMapper advertisementMapper;
 
     private final SkillMapper skillMapper;
@@ -49,11 +50,17 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public List<AdvertisementDto> getAllAdvertisementsForCompany(Long companyId) {
+        return advertisementRepository.findByCompany_Id(companyId).stream().map(advertisementMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<AdvertisementDto> getAdvertisementsByCriteria(AdvertisementSearchCriteriaDto criteriaDto, Pageable pageable) {
         var specification = new AdvertisementSpecification(criteriaDto);
-        Page<Advertisement> advertisement = advertisementRepository.findAll(specification,pageable);
-        return advertisement.getContent().stream()
-                .map(advertisementMapper::toDto).collect(Collectors.toList());
+        Page<Advertisement> advertisements = advertisementRepository.findAll(specification, pageable);
+        return advertisements.getContent().stream().map(advertisementMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -61,13 +68,13 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         Advertisement advertisement = advertisementMapper.toNewEntity(createDto);
         advertisement.setPublishDate(LocalDateTime.now());
         advertisement.setCompany(companyRepository.findById(createDto.getCompanyId())
-                .orElseThrow(() -> new EntityNotFoundException("Company",createDto.getCompanyId())));
+                .orElseThrow(() -> new EntityNotFoundException("Company", createDto.getCompanyId())));
         advertisement.setTechnology(technologyRepository.findById(createDto.getTechnologyId())
-                .orElseThrow(() -> new EntityNotFoundException("Technology",createDto.getTechnologyId())));
+                .orElseThrow(() -> new EntityNotFoundException("Technology", createDto.getTechnologyId())));
         advertisement.setSeniority(seniorityRepository.findById(createDto.getSeniorityId())
-                .orElseThrow(() -> new EntityNotFoundException("Seniority",createDto.getSeniorityId())));
+                .orElseThrow(() -> new EntityNotFoundException("Seniority", createDto.getSeniorityId())));
         advertisement.setCity(cityRepository.findById(createDto.getCityId())
-                .orElseThrow(() -> new EntityNotFoundException("City",createDto.getCityId())));
+                .orElseThrow(() -> new EntityNotFoundException("City", createDto.getCityId())));
 
         List<Skill> skills = createDto.getSkills().stream()
                 .map(skillCreateDto -> {

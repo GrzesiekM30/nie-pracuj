@@ -31,6 +31,10 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired;
     private boolean enabled;
 
+    @OneToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 

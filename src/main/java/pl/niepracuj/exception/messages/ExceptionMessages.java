@@ -11,4 +11,5 @@ public enum ExceptionMessages {
     USER_FOR_PROVIDED_USERNAME_NOT_FOUND("Użytkownik %s nie istnieje");
 
     private final String message;
+
 }

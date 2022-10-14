@@ -6,9 +6,12 @@ import pl.niepracuj.model.dto.advertisement.AdvertisementDto;
 import pl.niepracuj.model.dto.advertisement.AdvertisementSearchCriteriaDto;
 
 import java.util.List;
+
 public interface AdvertisementService {
 
     List<AdvertisementDto> getAllAdvertisements();
+
+    List<AdvertisementDto> getAllAdvertisementsForCompany(Long companyId);
 
     List<AdvertisementDto> getAdvertisementsByCriteria(AdvertisementSearchCriteriaDto criteriaDto, Pageable pageable);
 
