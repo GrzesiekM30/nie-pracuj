@@ -38,4 +38,5 @@ public class AdvertisementController {
                                                                 Pageable pageable) {
         return advertisementService.getAdvertisementsByCriteria(criteriaDto, pageable);
     }
+
 }
