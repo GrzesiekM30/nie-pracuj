@@ -2,8 +2,8 @@ package pl.niepracuj.model.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.niepracuj.model.dto.ApplicationCreateDto;
-import pl.niepracuj.model.dto.ApplicationDto;
+import pl.niepracuj.model.dto.application.ApplicationCreateDto;
+import pl.niepracuj.model.dto.application.ApplicationDto;
 import pl.niepracuj.model.entity.Application;
 
 @Component
