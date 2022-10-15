@@ -10,13 +10,14 @@ import org.springframework.test.context.jdbc.Sql
 import org.springframework.test.context.jdbc.SqlGroup
 import org.springframework.test.web.servlet.MockMvc
 import pl.niepracuj.model.dto.advertisement.AdvertisementSearchCriteriaDto
+import pl.niepracuj.model.entity.Advertisement
 import pl.niepracuj.model.enums.SeniorityEnum
 import pl.niepracuj.model.enums.TechnologyEnum
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import static pl.niepracuj.model.enums.TechnologyEnum.JAVA
+import static pl.niepracuj.util.TestUtils.jsonArrayStringToList
 import static pl.niepracuj.util.TestUtils.toJsonString
 
 @SpringBootTest
@@ -30,13 +31,12 @@ class AdvertisementControllerGroovyTest extends Specification {
     @Autowired
     protected MockMvc mockMvc
 
-
-    def "one plus one equals two"() {
+    def "one to one equals two" () {
         expect:
         1 + 1 == 2
     }
 
-    def "one plus one equals two with given when then"() {
+    def "one to one equals two with given when then" () {
         given:
         def num1 = 1
         def num2 = 1
@@ -46,17 +46,16 @@ class AdvertisementControllerGroovyTest extends Specification {
         result == 2
     }
 
-    def "should get all advertisements"() {
+    def "should get all advertisements" () {
         given:
         def url = "/adv/all"
         when:
         def response = mockMvc.perform(get(url)).andReturn().response
         then:
-        //toJson(response.contentAsString).size() == 1672//do poprawy
         response.status == 200
     }
 
-    def "numbers to power"(int a, int b, int c) {
+    def "numbers to power" (int a, int b, int c) {
         expect:
         Math.pow(a, b) == c
         where:
@@ -64,19 +63,19 @@ class AdvertisementControllerGroovyTest extends Specification {
         1 | 2 | 1
         3 | 2 | 9
         4 | 2 | 16
-
     }
+
     @WithMockUser(username = "admin", password = "admin", roles = ["ADMIN"])
-    def "should get advertisements by criteria"(TechnologyEnum technology,
-                                                String city,
-                                                SeniorityEnum seniority,
-                                                int result) {
+    def "should get advertisements by criteria" (TechnologyEnum technology,
+                                                 String city,
+                                                 SeniorityEnum seniority,
+                                                 int result) {
         def criteria = AdvertisementSearchCriteriaDto.builder()
                 .technologyName(technology)
                 .cityName(city)
                 .seniorityName(seniority)
-                .build();
-        def criteriaJson = toJsonString(criteria);
+                .build()
+        def criteriaJson = toJsonString(criteria)
 
         def url = "/adv/search?page=0&size=10&sort=id,DESC"
 
@@ -85,14 +84,13 @@ class AdvertisementControllerGroovyTest extends Specification {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn().response
 
         expect:
-        toJsonString(response.contentAsString).size() == result
-
+        def list =  jsonArrayStringToList(response.contentAsString, Advertisement)
+        list.size() == result
 
         where:
-        technology | city           | seniority | result
-        JAVA       | null           | null      | 1144
-        null       | "Nowogrodziec" | null      | 619
-        //null       | null           | MID       | 1
-
+        technology          | city           | seniority         | result
+        TechnologyEnum.JAVA | null           | null              | 2
+        null                | "Nowogrodziec" | null              | 1
     }
+
 }
