@@ -10,6 +10,7 @@ import pl.niepracuj.service.user.UserService;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor

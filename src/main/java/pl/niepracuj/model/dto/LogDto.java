@@ -1,6 +1,5 @@
 package pl.niepracuj.model.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -18,8 +17,7 @@ public class LogDto {
     private String message;
 
     @JsonIgnore
-    public static LogDto getLogDto(String message){
-
+    public static LogDto getLogDto(String message) {
         return LogDto.builder()
                 .loggedOn(LocalDateTime.now())
                 .message(message)

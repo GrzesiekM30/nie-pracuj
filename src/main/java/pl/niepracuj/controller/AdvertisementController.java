@@ -14,6 +14,10 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Kontroler ogłoszeń
+ */
+@CrossOrigin
 @RestController
 @RequestMapping("/adv")
 @RequiredArgsConstructor
@@ -22,10 +26,15 @@ public class AdvertisementController {
     private final AdvertisementService advertisementService;
     private final LogService logService;
 
+    /**
+     * Endpoint do pobierania wszystkich ogłoszeń
+     * @return Lista ogłoszeń
+     * @throws IOException Wyjątek związany z wysyłaniem logów
+     * @throws InterruptedException Wyjątek związany z wysyłaniem logów
+     */
     @GetMapping("/all")
     public List<AdvertisementDto> getAdvertisements() throws IOException, InterruptedException {
-
-        var response =  advertisementService.getAllAdvertisements();
+        var response = advertisementService.getAllAdvertisements();
         logService.sendLog(LogDto.getLogDto("Pobrano wszystkie ogłoszenia"));
         return response;
     }
@@ -45,5 +54,4 @@ public class AdvertisementController {
                                                                 Pageable pageable) {
         return advertisementService.getAdvertisementsByCriteria(criteriaDto, pageable);
     }
-
 }

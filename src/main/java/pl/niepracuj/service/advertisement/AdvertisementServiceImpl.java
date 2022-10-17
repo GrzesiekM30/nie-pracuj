@@ -20,6 +20,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Serwis do obsługi ogłoszeń
+ * @author twojtyra
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -43,6 +47,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
     private final SkillMapper skillMapper;
 
+    /**
+     * Pobierz wszystkie ogłoszenia
+     * @return Lista ogłoszeń
+     */
     @Override
     public List<AdvertisementDto> getAllAdvertisements() {
         return advertisementRepository.findAll().stream().map(advertisementMapper::toDto)
